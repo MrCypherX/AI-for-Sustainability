@@ -1,5 +1,5 @@
 {
-  "name": "nourishloop-fullstack",
+  "name": "nourishloop",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "npm --prefix backend run dev",
     "start:backend": "npm --prefix backend run start",
-    "build": "npm --prefix frontend run build",
+    "build": "npm --prefix frontend run build && node -e \"require('fs').cpSync('frontend/dist', 'dist', {recursive: true})\"",
     "build:frontend": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview"
   }
