@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <filter id="pebbleShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="3" dy="8" stdDeviation="8" flood-color="#1a1a1a" flood-opacity="0.16"/>
+    </filter>
+    <radialGradient id="pebbleGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F3F4F6"/>
+      <stop offset="100%" stop-color="#E5E7EB"/>
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="38" fill="url(#pebbleGrad)" filter="url(#pebbleShadow)" stroke="rgba(255,255,255,0.8)" stroke-width="2"/>
+</svg>

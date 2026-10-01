@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="200" height="160">
+  <defs>
+    <filter id="shadow5" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="8" stdDeviation="6" flood-color="#1a1a1a" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow5)">
+    <!-- Star Anise 1 -->
+    <g transform="translate(90, 70)">
+      <path d="M0 -30 L8 -12 L28 -18 L16 0 L32 14 L12 16 L12 34 L-4 18 L-22 28 L-14 10 L-32 -2 L-14 -8 Z" fill="#78350F"/>
+      <circle cx="0" cy="0" r="12" fill="#92400E"/>
+      <circle cx="0" cy="0" r="6" fill="#451A03"/>
+    </g>
+
+    <!-- Star Anise 2 -->
+    <g transform="translate(145, 85) scale(0.75) rotate(25)">
+      <path d="M0 -30 L8 -12 L28 -18 L16 0 L32 14 L12 16 L12 34 L-4 18 L-22 28 L-14 10 L-32 -2 L-14 -8 Z" fill="#854D0E"/>
+      <circle cx="0" cy="0" r="10" fill="#78350F"/>
+    </g>
+
+    <!-- Scattered peppercorns -->
+    <circle cx="30" cy="65" r="4" fill="#1F2937"/>
+    <circle cx="45" cy="50" r="3.5" fill="#374151"/>
+    <circle cx="55" cy="75" r="4.5" fill="#111827"/>
+    <circle cx="70" cy="60" r="3" fill="#4B5563"/>
+    <circle cx="40" cy="85" r="3.5" fill="#1F2937"/>
+    <circle cx="25" cy="95" r="4" fill="#374151"/>
+  </g>
+</svg>

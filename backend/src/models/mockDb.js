@@ -1,0 +1,437 @@
+/**
+ * NourishLoop In-Memory Mock Database
+ * Stores real-time state for Donors, NGOs, Volunteers, and Admins
+ */
+
+class MockDatabase {
+  constructor() {
+    this.currentUserRole = 'donor'; // 'donor' | 'ngo' | 'volunteer' | 'admin'
+
+    this.users = {
+      donor: {
+        id: 'usr-donor-1',
+        name: 'Ananya Sharma',
+        role: 'donor',
+        organizationRole: 'Operations Manager',
+        organization: 'Green Leaf Cafeteria',
+        organizationType: 'Cafeteria',
+        avatar: 'AS',
+        verified: true,
+        address: '4th Cross, IT Corridor, Bengaluru'
+      },
+      ngo: {
+        id: 'usr-ngo-1',
+        name: 'Dr. Shalini Verma',
+        role: 'ngo',
+        organizationRole: 'Director of Relief',
+        organization: 'Hope Community Kitchen',
+        organizationType: 'Community Kitchen',
+        avatar: 'SV',
+        verified: true,
+        address: '42 Shanti Nagar, Sector 4, Bengaluru'
+      },
+      volunteer: {
+        id: 'usr-vol-1',
+        name: 'Ravi Kumar',
+        role: 'volunteer',
+        organizationRole: 'Certified Green Courier',
+        organization: 'NourishLoop Volunteer Corps',
+        avatar: 'RK',
+        verified: true,
+        rating: 4.9,
+        totalPickups: 142,
+        vehicle: 'Electric 2-Wheeler (Thermal insulated carrier)',
+        phone: '+91 98765 43210'
+      },
+      admin: {
+        id: 'usr-admin-1',
+        name: 'Priya Patel',
+        role: 'admin',
+        organizationRole: 'City Food Security Officer',
+        organization: 'Bengaluru Food Rescue Authority',
+        avatar: 'PP',
+        verified: true
+      }
+    };
+
+    this.metrics = {
+      mealsRescued: 1248,
+      mealsChange: '+18.4% this month',
+      wasteAvoidedKg: 386,
+      wasteChange: '-24.8% this month',
+      moneySaved: 42600,
+      moneyChange: '+12.6% this month',
+      peopleSupported: 526,
+      peopleChange: '+21.3% this month',
+      sustainabilityScore: 86,
+      co2AvoidedKg: 965,
+      waterSavedLiters: 1930000
+    };
+
+    this.aiInsight = {
+      applied: false,
+      title: 'Prepare 30 fewer meals tomorrow',
+      description: 'Expected attendance is lower because of rain and a weekday schedule. Adjusting preparation may prevent approximately 9 kg of food waste.',
+      confidence: 91,
+      estimatedSaving: 2400,
+      estimatedWasteKg: 9,
+      recommendedMeals: 390,
+      expectedCustomers: 420,
+      previousAverage: 440,
+      weatherCondition: 'Heavy rain in afternoon',
+      peakTrafficPenaltyMin: 12
+    };
+
+    this.surplusListings = [
+      {
+        id: 's1',
+        name: 'Vegetable rice',
+        category: 'Cooked meals',
+        meals: 35,
+        weightKg: 11.5,
+        preparedTime: '1:30 PM',
+        safeUntil: '8:30 PM',
+        dietary: 'Vegetarian',
+        allergens: ['None', 'Gluten-free'],
+        status: 'available',
+        image: '/images/veg_rice.jpg',
+        location: 'Green Leaf Cafeteria — Loading Dock 2',
+        notes: 'Kept in hot insulated catering trays at >65°C.',
+        donorName: 'Green Leaf Cafeteria'
+      },
+      {
+        id: 's2',
+        name: 'Sandwiches',
+        category: 'Bakery & Deli',
+        meals: 18,
+        weightKg: 5.2,
+        preparedTime: '11:00 AM',
+        safeUntil: '7:00 PM',
+        dietary: 'Vegetarian',
+        allergens: ['Gluten', 'Dairy'],
+        status: 'matched',
+        image: '/images/sandwiches.jpg',
+        location: 'Green Leaf Cafeteria — Main Counter',
+        notes: 'Individually wrapped fresh club sandwiches in eco boxes.',
+        donorName: 'Green Leaf Cafeteria',
+        matchedOrg: 'Hope Community Kitchen',
+        pickupConfirmed: true
+      },
+      {
+        id: 's3',
+        name: 'Fruit boxes',
+        category: 'Fresh produce',
+        meals: 24,
+        weightKg: 8.0,
+        preparedTime: '9:00 AM',
+        safeUntil: '9:00 PM',
+        dietary: 'Vegan',
+        allergens: ['None'],
+        status: 'completed',
+        image: '/images/fruit_boxes.jpg',
+        location: 'Green Leaf Cafeteria — Cold Storage',
+        notes: 'Freshly sliced seasonal fruit packs, refrigerated.',
+        donorName: 'Green Leaf Cafeteria',
+        matchedOrg: 'Robin Hood Army Local Hub',
+        completedTime: '12:45 PM today'
+      }
+    ];
+
+    this.organizations = [
+      {
+        id: 'org-1',
+        name: 'Hope Community Kitchen',
+        type: 'Community Kitchen',
+        distanceKm: 1.8,
+        travelTimeMin: 9,
+        canAcceptMeals: 35,
+        pickupDeadline: '8:30 PM',
+        foodPreference: 'Vegetarian',
+        currentNeed: 'High',
+        matchScore: 96,
+        isBestMatch: true,
+        urgency: 'urgent',
+        coordinates: { x: 55, y: 38 },
+        address: '42 Shanti Nagar, Sector 4',
+        contactPerson: 'Dr. Shalini Verma',
+        phone: '+91 98450 12890',
+        beneficiaries: 'Elderly & daily-wage workers (180 daily)',
+        fssaiVerified: true,
+        rating: 4.9
+      },
+      {
+        id: 'org-2',
+        name: 'CareBridge Shelter',
+        type: 'Homeless Shelter',
+        distanceKm: 2.6,
+        travelTimeMin: 14,
+        canAcceptMeals: 50,
+        pickupDeadline: '9:00 PM',
+        foodPreference: 'All types',
+        currentNeed: 'High',
+        matchScore: 92,
+        isBestMatch: false,
+        urgency: 'normal',
+        coordinates: { x: 72, y: 55 },
+        address: '18 Sunshine Cross Road, Block C',
+        contactPerson: 'Manoj Kumar',
+        phone: '+91 97112 34567',
+        beneficiaries: 'Night shelter residents (65 families)',
+        fssaiVerified: true,
+        rating: 4.8
+      },
+      {
+        id: 'org-3',
+        name: "Sunshine Children's Home",
+        type: 'Children Welfare Home',
+        distanceKm: 3.1,
+        travelTimeMin: 12,
+        canAcceptMeals: 25,
+        pickupDeadline: '7:45 PM',
+        foodPreference: 'Vegetarian / Mild',
+        currentNeed: 'Critical',
+        matchScore: 89,
+        isBestMatch: false,
+        urgency: 'urgent',
+        deadlineCountdown: '45 minutes left',
+        coordinates: { x: 30, y: 68 },
+        address: '7 Rose Garden Enclave',
+        contactPerson: 'Sister Anita',
+        phone: '+91 99880 77665',
+        beneficiaries: 'Children & resident tutors (45 kids)',
+        fssaiVerified: true,
+        rating: 5.0
+      },
+      {
+        id: 'org-4',
+        name: 'Robin Hood Army Local Hub',
+        type: 'Food Rescue Volunteer Network',
+        distanceKm: 4.0,
+        travelTimeMin: 18,
+        canAcceptMeals: 80,
+        pickupDeadline: '9:30 PM',
+        foodPreference: 'All types',
+        currentNeed: 'Moderate',
+        matchScore: 85,
+        isBestMatch: false,
+        urgency: 'normal',
+        coordinates: { x: 22, y: 28 },
+        address: 'Civic Centre Hall 3, Metro Station Road',
+        contactPerson: 'Kavita Nair',
+        phone: '+91 94220 54321',
+        beneficiaries: 'Cluster settlements (300+ people)',
+        fssaiVerified: true,
+        rating: 4.9
+      }
+    ];
+
+    this.activeRoute = {
+      id: 'rt-104',
+      listingName: 'Vegetable rice',
+      meals: 35,
+      pickupLocation: 'Green Leaf Cafeteria',
+      dropoffLocation: 'Hope Community Kitchen',
+      distanceKm: 1.8,
+      estimatedTimeMin: 9,
+      pickupDeadline: '8:30 PM',
+      currentStep: 2,
+      steps: [
+        { label: 'Created', time: '1:45 PM', status: 'completed' },
+        { label: 'Volunteer assigned', time: '2:05 PM', status: 'completed' },
+        { label: 'Picked up', time: 'Pending', status: 'current' },
+        { label: 'Delivered', time: 'Expected 2:35 PM', status: 'upcoming' }
+      ],
+      volunteer: {
+        name: 'Ravi Kumar',
+        role: 'Certified Green Volunteer',
+        rating: 4.9,
+        totalPickups: 142,
+        vehicle: 'Electric 2-Wheeler (Thermal insulated carrier)',
+        phone: '+91 98765 43210',
+        currentStatus: 'En route to Cafeteria (ETA 6 min)',
+        avatar: 'RK'
+      }
+    };
+
+    this.notifications = [
+      {
+        id: 'n1',
+        priority: 'urgent',
+        title: 'Pickup deadline in 30 minutes',
+        message: 'Vegetable rice at Loading Dock 2 must be picked up before 8:30 PM.',
+        time: '5m ago',
+        read: false,
+        badge: 'Urgent'
+      },
+      {
+        id: 'n2',
+        priority: 'important',
+        title: 'AI prediction is ready for tomorrow',
+        message: 'Recommended: 390 meals (30 fewer than avg). High rainfall expected.',
+        time: '25m ago',
+        read: false,
+        badge: 'AI Prediction'
+      },
+      {
+        id: 'n3',
+        priority: 'info',
+        title: 'Hope Community Kitchen accepted your donation',
+        message: 'Match confirmed for 35 meals of Vegetable rice. Volunteer Ravi assigned.',
+        time: '45m ago',
+        read: false,
+        badge: 'Match'
+      },
+      {
+        id: 'n4',
+        priority: 'info',
+        title: 'Your sustainability score increased to 86',
+        message: 'Great work! Kitchen waste reduction has reached top 5% of local cafeterias.',
+        time: '3h ago',
+        read: true,
+        badge: 'Impact'
+      }
+    ];
+
+    this.liveActivity = [
+      {
+        id: 'act-1',
+        title: '35 meals matched with Hope Community Kitchen',
+        time: '10m ago',
+        badge: 'Matched',
+        type: 'success'
+      },
+      {
+        id: 'act-2',
+        title: '18 meals picked up by Ravi',
+        time: '35m ago',
+        badge: 'In transit',
+        type: 'info'
+      },
+      {
+        id: 'act-3',
+        title: '12 kg food waste avoided today',
+        time: '2h ago',
+        badge: 'Verified',
+        type: 'success'
+      }
+    ];
+  }
+
+  getCurrentUser() {
+    return this.users[this.currentUserRole] || this.users.donor;
+  }
+
+  setCurrentUserRole(role) {
+    if (this.users[role]) {
+      this.currentUserRole = role;
+      return this.users[role];
+    }
+    return null;
+  }
+
+  getAllListings() {
+    return this.surplusListings;
+  }
+
+  getListingById(id) {
+    return this.surplusListings.find(l => l.id === id);
+  }
+
+  addListing(item) {
+    const newListing = {
+      id: 's' + Date.now(),
+      name: item.name,
+      category: item.category || 'Cooked meals',
+      meals: Number(item.meals) || 10,
+      weightKg: Number(item.weightKg) || Number(item.meals) * 0.33,
+      preparedTime: item.preparedTime || 'Just now',
+      safeUntil: item.safeUntil || 'In 4 hours',
+      dietary: item.dietary || 'Vegetarian',
+      allergens: item.allergens || ['None'],
+      status: 'available',
+      image: item.image || '/images/veg_rice.jpg',
+      location: item.location || 'Green Leaf Cafeteria',
+      notes: item.notes || '',
+      donorName: this.users.donor.organization
+    };
+
+    this.surplusListings.unshift(newListing);
+    this.metrics.mealsRescued += newListing.meals;
+
+    this.liveActivity.unshift({
+      id: 'act-' + Date.now(),
+      title: `${newListing.meals} meals of ${newListing.name} listed for rescue`,
+      time: 'Just now',
+      badge: 'Available',
+      type: 'success'
+    });
+
+    return newListing;
+  }
+
+  acceptMatch(orgId) {
+    const org = this.organizations.find(o => o.id === orgId);
+    if (!org) return null;
+
+    const availListing = this.surplusListings.find(s => s.status === 'available');
+    if (availListing) {
+      availListing.status = 'matched';
+      availListing.matchedOrg = org.name;
+    }
+
+    this.activeRoute.dropoffLocation = org.name;
+    this.activeRoute.distanceKm = org.distanceKm;
+    this.activeRoute.estimatedTimeMin = org.travelTimeMin;
+    this.activeRoute.pickupDeadline = org.pickupDeadline;
+    this.activeRoute.currentStep = 2;
+
+    this.liveActivity.unshift({
+      id: 'act-' + Date.now(),
+      title: `Match accepted with ${org.name}`,
+      time: 'Just now',
+      badge: 'Matched',
+      type: 'info'
+    });
+
+    return { success: true, matchedOrg: org.name };
+  }
+
+  advanceRouteStep(stepNumber) {
+    this.activeRoute.currentStep = stepNumber;
+    if (stepNumber === 3) {
+      this.activeRoute.steps[2].status = 'completed';
+      this.activeRoute.steps[2].time = 'Just now';
+      this.activeRoute.steps[3].status = 'current';
+
+      this.liveActivity.unshift({
+        id: 'act-' + Date.now(),
+        title: 'Volunteer Ravi picked up 35 meals',
+        time: 'Just now',
+        badge: 'In transit',
+        type: 'info'
+      });
+    } else if (stepNumber === 4) {
+      this.activeRoute.steps[3].status = 'completed';
+      this.activeRoute.steps[3].time = 'Just now';
+      this.metrics.mealsRescued += 35;
+      this.metrics.peopleSupported += 35;
+      this.metrics.wasteAvoidedKg += 11;
+      this.metrics.sustainabilityScore = Math.min(100, this.metrics.sustainabilityScore + 1);
+
+      const vegRice = this.surplusListings.find(s => s.name === 'Vegetable rice');
+      if (vegRice) vegRice.status = 'completed';
+
+      this.liveActivity.unshift({
+        id: 'act-' + Date.now(),
+        title: 'Donation delivered to Hope Community Kitchen!',
+        time: 'Just now',
+        badge: 'Delivered',
+        type: 'success'
+      });
+    }
+
+    return this.activeRoute;
+  }
+}
+
+export const db = new MockDatabase();
